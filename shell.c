@@ -28,6 +28,8 @@ int main(void)
 			command[nget - 1] = '\0';
 		if (command[0] == '\0')
 			continue;
+		if (strcmp("exit", command) == 0)
+			exit(EXIT_SUCCESS);
 		pid = fork();
 		if (pid == -1)
 		{
