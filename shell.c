@@ -50,10 +50,22 @@ int main(void)
 			tokens = realloc(tokens, (num_tokens + 1) * sizeof(char *));
 			tokens[num_tokens] = NULL;
 			free(token);
-			if (execve(tokens[0], tokens, NULL) == -1)
+			if (tokens[0][0] == '/')
 			{
-				perror("execve");
-				exit(EXIT_FAILURE);
+				if (execve(tokens[0], tokens, NULL) == -1)
+				{
+					perror("execve");
+					exit(EXIT_FAILURE);
+				}
+			}
+			else
+			{
+				if (execve(tokens[0], tokens, NULL) == -1)
+				{
+					perror("execve");
+					free(command);
+					exit(EXIT_FAILURE);
+				}
 			}
 		}
 		else
