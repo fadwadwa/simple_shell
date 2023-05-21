@@ -30,6 +30,16 @@ int main(void)
 			continue;
 		if (strcmp("exit", command) == 0)
 			exit(EXIT_SUCCESS);
+		if (strcmp("env", command) == 0)
+		{
+			char **env = environ;
+			while (*env != NULL)
+			{
+				printf("%s\n", *env);
+				env++;
+			}
+			continue;
+		}
 		pid = fork();
 		if (pid == -1)
 		{
