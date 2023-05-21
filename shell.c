@@ -10,7 +10,8 @@ int main(void)
 	size_t command_len = 0;
 	ssize_t nget;
 	pid_t pid;
-	char *args[] = {NULL, NULL};
+	char *token, **tokens = NULL;
+	int num_tokens = 0;
 
 	while (1)
 	{
@@ -23,7 +24,6 @@ int main(void)
 		}
 		if (command[nget - 1] == '\n')
 			command[nget - 1] = '\0';
-		args[0] = command;
 		if (command[0] == '\0')
 			continue;
 		pid = fork();
@@ -34,7 +34,23 @@ int main(void)
 		}
 		else if (pid == 0)
 		{
-			if (execve(command, args, NULL) == -1)
+			token = strtok(command, " \t\n");
+			while (token != NULL)
+			{
+				tokens = realloc(tokens, (num_tokens + 1) * sizeof(char *));
+				if (tokens == NULL)
+				{
+					perror("realloc");
+					exit(EXIT_FAILURE);
+				}
+				tokens[num_tokens] = strdup(token);
+				num_tokens++;
+				token = strtok(NULL, " \t\n");
+			}
+			tokens = realloc(tokens, (num_tokens + 1) * sizeof(char *));
+			tokens[num_tokens] = NULL;
+			free(token);
+			if (execve(tokens[0], tokens, NULL) == -1)
 			{
 				perror("execve");
 				exit(EXIT_FAILURE);
