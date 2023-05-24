@@ -1,5 +1,5 @@
 #include "main.h"
-#include <errno.h>
+
 char *find_path(char *command);
 
 /**
@@ -18,18 +18,10 @@ char *read_line()
 
 	if (nget == -1)
 	{
-		if (errno == 0)
-		{
-			free(line);
-			exit(EXIT_SUCCESS);
-		}
-		else
-		{
-			perror("getline");
-			free(line);
-			exit(EXIT_FAILURE);
-		}
+		free(line);
+		exit(EXIT_SUCCESS);
 	}
+
 	if (line[nget - 1] == '\n')
 		line[nget - 1] = '\0';
 
