@@ -34,7 +34,7 @@ char **tokenize_command(char *command)
  */
 void free_tokens(char **tokens)
 {
-	int i;
+	int i = 0;
 
 	if (tokens == NULL)
 		return;
