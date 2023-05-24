@@ -17,8 +17,8 @@ char *read_line()
 
 	if (nget == -1)
 	{
-		perror("getline");
-		exit(EXIT_FAILURE);
+		free(line);
+		exit(EXIT_SUCCESS);
 	}
 
 	if (line[nget - 1] == '\n')
