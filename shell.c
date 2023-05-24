@@ -12,7 +12,6 @@ char *read_line()
 	size_t line_len = 0;
 	ssize_t nget;
 
-	
 	nget = getline(&line, &line_len, stdin);
 
 	if (nget == -1)
