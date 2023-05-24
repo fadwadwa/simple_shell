@@ -7,7 +7,7 @@
  */
 char *find_executable_path(char *command)
 {
-	char *path, *path_copy, *dir_path, *new_path;
+	char *path, *dir_path, *new_path;
 	int dir_len, cmd_len;
 	struct stat st;
 

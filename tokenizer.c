@@ -34,10 +34,12 @@ char **tokenize_command(char *command)
  */
 void free_tokens(char **tokens)
 {
+	int i;
+
 	if (tokens == NULL)
 		return;
 
-	for (int i = 0; tokens[i] != NULL; i++)
+	for (i = 0; tokens[i] != NULL; i++)
 	{
 		free(tokens[i]);
 	}
