@@ -1,7 +1,27 @@
 #include "main.h"
 
 char *find_path(char *command);
+/**
+ * space_trim - trim spaces and \t
+ * @str: the line
+ * Return: void
+ */
+void space_trim(char *str)
+{
+	int i = 0, j = 0, len = strlen(str);
 
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+
+	while (i < len)
+		str[j++] = str[i++];
+
+	str[j] = '\0';
+
+	i = strlen(str) - 1;
+	while (i > 0 && (str[i] == ' ' || str[i] == '\t'))
+		str[i--] = '\0';
+}
 /**
  * read_line - Read a line of input from stdin.
  * Return: the read line.
@@ -24,7 +44,7 @@ char *read_line(void)
 
 	if (line[nget - 1] == '\n')
 		line[nget - 1] = '\0';
-
+	space_trim(line);
 	return (line);
 }
 
