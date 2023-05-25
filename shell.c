@@ -194,9 +194,7 @@ void remove_comment(char *line)
 
 	comment = strchr(line, '#');
 	if (comment != NULL)
-	{
 		*comment = '\0';
-	}
 }
 
 /**
