@@ -164,7 +164,7 @@ char *find_path(char *command)
 
 /**
  * main - the main fct
- * Return: 0
+ * Return: Always 0
  */
 int main(void)
 {
