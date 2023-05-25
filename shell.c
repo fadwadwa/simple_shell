@@ -6,7 +6,7 @@ char *find_path(char *command);
  * read_line - Read a line of input from stdin.
  * Return: the read line.
  */
-char *read_line()
+char *read_line(void)
 {
 	char *line = NULL;
 	size_t line_len = 0;
