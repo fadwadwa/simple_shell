@@ -102,7 +102,6 @@ void execute_command(char **tokens)
 			perror("Command not found");
 			exit(EXIT_FAILURE);
 		}
-		free(tokens[0]);
 		tokens[0] = cmd_path;
 
 		if (execve(tokens[0], tokens, NULL) == -1)
@@ -110,6 +109,7 @@ void execute_command(char **tokens)
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
+		free(tokens[0]);
 	}
 	else
 	{
@@ -169,7 +169,7 @@ char *find_path(char *command)
 int main(void)
 {
 	char *command;
-	char **tokens;
+	char **tokens = NULL;
 
 	while (1)
 	{
