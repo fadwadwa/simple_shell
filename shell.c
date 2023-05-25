@@ -111,6 +111,7 @@ void execute_command(char **tokens)
 	if (pid == -1)
 	{
 		perror("fork");
+		free_tokens(tokens);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
@@ -119,7 +120,8 @@ void execute_command(char **tokens)
 		cmd_path = find_path(tokens[0]);
 		if (cmd_path == NULL)
 		{
-			perror("Command not found");
+			perror("find_path");
+			free_tokens(tokens);
 			exit(EXIT_FAILURE);
 		}
 		tokens[0] = cmd_path;
@@ -127,9 +129,10 @@ void execute_command(char **tokens)
 		if (execve(tokens[0], tokens, NULL) == -1)
 		{
 			perror("execve");
+			free_tokens(tokens);
 			exit(EXIT_FAILURE);
 		}
-		free(tokens[0]);
+		free_tokens(tokens);
 	}
 	else
 	{
