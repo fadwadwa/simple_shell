@@ -184,6 +184,20 @@ char *find_path(char *command)
 
 	return (NULL);
 }
+/**
+ * remove_comment - a function to remove comments
+ * @line: the command line
+ */
+void remove_comment(char *line)
+{
+	char *comment;
+
+	comment = strchr(line, '#');
+	if (comment != NULL)
+	{
+		*comment = '\0';
+	}
+}
 
 /**
  * main - the main fct
@@ -197,6 +211,7 @@ int main(void)
 	while (1)
 	{
 		command = read_line();
+		remove_comment(command);
 
 		if (command[0] == '\0')
 		{
