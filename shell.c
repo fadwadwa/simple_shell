@@ -97,7 +97,12 @@ void execute_command(char **tokens)
 	{
 
 		cmd_path = find_path(tokens[0]);
-
+		if (cmd_path == NULL)
+		{
+			perror("Command not found");
+			exit(EXIT_FAILURE);
+		}
+		free(tokens[0]);
 		tokens[0] = cmd_path;
 
 		if (execve(tokens[0], tokens, NULL) == -1)
@@ -123,11 +128,9 @@ char *find_path(char *command)
 	int dir_len, cmd_len;
 	struct stat st;
 
-	path = getenv("PATH");
-
 	if (stat(command, &st) == 0)
 		return (command);
-
+	path = getenv("PATH");
 	if (path)
 	{
 		cmd_len = strlen(command);
