@@ -221,6 +221,22 @@ void change_directory(char **tokens)
 
 	setenv("PWD", getcwd(buffer, sizeof(buffer)), 1);
 }
+/**
+ * is_Number - tests if a string is a number
+ * @str: pointer to string
+ * Return: 0 if is not a number and 1 if it is
+ */
+int is_Number(const char *str)
+{
+	int i;
+
+	for (i = 0; str[i] != '\0'; i++)
+	{
+		if (!isdigit(str[i]))
+			return (0);
+	}
+	return (1);
+}
 
 /**
  * main - the main fct
@@ -230,7 +246,7 @@ int main(void)
 {
 	char *command;
 	char **tokens = NULL;
-	int last_status = 0;
+	int last_status = 0, i = 0;
 
 	while (1)
 	{
@@ -260,8 +276,22 @@ int main(void)
 		tokens = tokenize_line(command);
 		if (strcmp("exit", command) == 0)
 		{
-			if (tokens[1] != NULL && (atoi(tokens[1]) >= 0 && atoi(tokens[1]) <= 255))
-				last_status = atoi(tokens[1]);
+			if (tokens[1] != NULL)
+			{
+				if (tokens[1][0] != '-' && is_Number(tokens[1]) == 1)
+					last_status = atoi(tokens[1]);
+				else
+				{
+					write(STDERR_FILENO, "./hsh: 1: exit: Illegal number: ", 32);
+					while (tokens[1][i])
+					{
+						write(STDERR_FILENO, &tokens[1][i], 1);
+						i++;
+					}
+					write(STDERR_FILENO, "\n", 1);
+					last_status = 2;
+				}
+			}
 			free(command);
 			free_tokens(tokens);
 			exit(last_status);
