@@ -194,7 +194,7 @@ void remove_comment(char *line)
 	char *comment;
 
 	comment = strchr(line, '#');
-	if (comment != NULL && *(comment - 1) == ' ')
+	if (line[0] == '#' || (comment != NULL && *(comment - 1) == ' '))
 		*comment = '\0';
 }
 
