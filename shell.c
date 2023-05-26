@@ -100,9 +100,10 @@ void free_tokens(char **tokens)
 /**
  * execute_command - Execute the command with the specified tokens.
  * @tokens: double pointer to tokens
+ * @status: a pointer to the status of the last executed command
  * Return: void
  */
-void execute_command(char **tokens)
+void execute_command(char **tokens, int *status)
 {
 	char *cmd_path;
 	pid_t pid;
@@ -136,7 +137,7 @@ void execute_command(char **tokens)
 	}
 	else
 	{
-		waitpid(pid, NULL, 0);
+		waitpid(pid, status, 0);
 	}
 }
 /**
@@ -229,6 +230,7 @@ int main(void)
 {
 	char *command;
 	char **tokens = NULL;
+	int last_status = 0;
 
 	while (1)
 	{
@@ -244,7 +246,7 @@ int main(void)
 		if (strcmp("exit", command) == 0)
 		{
 			free(command);
-			exit(EXIT_SUCCESS);
+			exit(last_status);
 		}
 
 		if (strcmp("env", command) == 0)
@@ -262,11 +264,14 @@ int main(void)
 		}
 
 		tokens = tokenize_line(command);
+		free(command);
 		if (strcmp(tokens[0], "cd") == 0)
 			change_directory(tokens);
 		else
-			execute_command(tokens);
+			execute_command(tokens, &last_status);
 		free_tokens(tokens);
+		if (WIFEXITED(last_status))
+			last_status = WEXITSTATUS(last_status);
 	}
 
 	return (0);
