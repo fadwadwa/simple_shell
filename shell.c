@@ -261,13 +261,9 @@ int main(void)
 
 		tokens = tokenize_line(command);
 		if (strcmp(tokens[0], "cd") == 0)
-		{
 			change_directory(tokens);
-		}
 		else
-		{
 			execute_command(tokens);
-		}
 		free_tokens(tokens);
 	}
 
