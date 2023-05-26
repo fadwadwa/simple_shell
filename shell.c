@@ -217,6 +217,8 @@ void change_directory(char **tokens)
 
 	if (chdir(dir) != 0)
 		perror("cd");
+
+	setenv("PWD", getcwd(buffer, sizeof(buffer)), 1);
 }
 
 /**
