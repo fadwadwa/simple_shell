@@ -243,12 +243,6 @@ int main(void)
 			continue;
 		}
 
-		if (strcmp("exit", command) == 0)
-		{
-			free(command);
-			exit(last_status);
-		}
-
 		if (strcmp("env", command) == 0)
 		{
 			char **env = environ;
@@ -264,6 +258,14 @@ int main(void)
 		}
 
 		tokens = tokenize_line(command);
+		if (strcmp("exit", command) == 0)
+		{
+			if (tokens[1] != NULL)
+				last_status = atoi(tokens[1]);
+			free(command);
+			free_tokens(tokens);
+			exit(last_status);
+		}
 		free(command);
 		if (strcmp(tokens[0], "cd") == 0)
 			change_directory(tokens);
