@@ -198,6 +198,28 @@ void remove_comment(char *line)
 }
 
 /**
+ * change_directory - Change the current directory.
+ * @tokens: The tokens containing the command and directory.
+ */
+void change_directory(char **tokens)
+{
+	char buffer[1024];
+	char *dir;
+
+	if (tokens[1] == NULL || strcmp(tokens[1], "~") == 0)
+		dir = getenv("HOME");
+	else if (strcmp(tokens[1], "-") == 0)
+		dir = getenv("OLDPWD");
+	else
+		dir = tokens[1];
+
+	getcwd(buffer, sizeof(buffer));
+
+	if (chdir(dir) != 0)
+		perror("cd");
+}
+
+/**
  * main - the main fct
  * Return: Always 0
  */
@@ -238,9 +260,14 @@ int main(void)
 		}
 
 		tokens = tokenize_line(command);
-		free(command);
-
-		execute_command(tokens);
+		if (strcmp(tokens[0], "cd") == 0)
+		{
+			change_directory(tokens);
+		}
+		else
+		{
+			execute_command(tokens);
+		}
 		free_tokens(tokens);
 	}
 
