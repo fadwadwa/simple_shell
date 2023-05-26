@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdint.h>
 
 char *find_path(char *command);
 /**
@@ -260,7 +261,7 @@ int main(void)
 		tokens = tokenize_line(command);
 		if (strcmp("exit", command) == 0)
 		{
-			if (tokens[1] != NULL)
+			if (tokens[1] != NULL && ((intptr_t)tokens[1] >= 0 && (intptr_t)tokens[1] <= 255))
 				last_status = atoi(tokens[1]);
 			free(command);
 			free_tokens(tokens);
